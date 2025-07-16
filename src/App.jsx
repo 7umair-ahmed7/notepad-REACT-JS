@@ -5,10 +5,10 @@ import NotesApp from './components/NotesApp'
 import Todo from './components/Todo'
 
 const App = () => {
-  useEffect(() => {
-   alert("Saving data functionality will come soon. Sorry for inconvenience!");
+  // useEffect(() => {
+  //  alert("Saving data functionality will come soon. Sorry for inconvenience!");
     
-  }, [])
+  // }, [])
   
   return (
     <>
