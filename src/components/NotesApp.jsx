@@ -10,12 +10,26 @@ const NotesApp = () => {
   })
   const [filterData, setFilterData] = useState([])
 
+  useEffect(() => {
+    let notesString = localStorage.getItem("notesSave")
+    if (notesString) {
+      let notesObtData = JSON.parse(notesString)
+      setNotesData(notesObtData)
+    } else {
+      setNotesData([])
+    }
+
+  }, [])
 
   useEffect(() => {
 
     setFilterData(notesData)
 
   }, [notesData])
+
+  const saveToLS = (notesData) => {
+    localStorage.setItem("notesSave", JSON.stringify(notesData))
+  }
 
 
   const handleAdd = () => {
@@ -42,9 +56,9 @@ const NotesApp = () => {
       title: "",
       note: ""
     })
+    saveToLS([...notesData, noteData])
   }
   const handleEdit = (i) => {
-
     setOpen(true)
     let reqNote = notesData.filter((n, index) => {
       return index == i
@@ -55,11 +69,16 @@ const NotesApp = () => {
     setNotesData(notesData.filter((n, ind) => {
       return ind != i
     }))
-
+    saveToLS(notesData.filter((n, ind) => {
+      return ind != i
+    }))
   }
 
   const handleDelete = (i) => {
     setNotesData(notesData.filter((n, index) => {
+      return index != i
+    }))
+    saveToLS(notesData.filter((n, index) => {
       return index != i
     }))
 
@@ -80,15 +99,15 @@ const NotesApp = () => {
   return (
     <div>
 
-      <div className="notes-app-container m-auto bg-blue-400 p-3 min-h-[70vh] w-[75vw] relative">
+      <div className="notes-app-container m-auto bg-blue-400 p-3 h-[80vh] w-[75vw] relative">
         <h1 className='font-semibold text-xl mb-2'>Notes</h1>
         <hr />
         <div className="upper-container m-4 flex gap-2">
           <input className='px-2 py-2 rounded-xl w-[400px]' onChange={handleSearch} type="text" placeholder='Search notes' />
           <button onClick={handleAdd} className='add-notes border border-black px-2 py-2  rounded-xl bg-blue-800 text-white'>Add Notes</button>
         </div>
-        <div className='notes-all-container flex flex-col gap-2'>
-          {filterData.map((notes, index) => {
+        <div className='notes-all-container flex flex-col gap-2 h-[55vh] overflow-auto m-4'>
+          {filterData.length == 0 ? "no notes available" : filterData.map((notes, index) => {
             return <div key={index} className='notes rounded-xl flex border border-black justify-between items-center p-2'>
               <div>
                 <h2 className='font-semibold text-lg'>{notes.title.slice(0, 70)}</h2>

@@ -9,9 +9,7 @@ const Todo = () => {
 
 
   useEffect(() => {
-
     console.log("todos state ", todos)
-
   }, [todos])
 
   useEffect(() => {
@@ -46,7 +44,7 @@ const Todo = () => {
       setTodos([...todos, { todo: todo, isCompleted: false }])
       setTodo('')
       setErrorNumDig(false)
-      saveToLS([...todos, { todo: todo, isCompleted: false }])  
+      saveToLS([...todos, { todo: todo, isCompleted: false }])
     } else {
       setErrorNumDig(true)
 
@@ -85,7 +83,7 @@ const Todo = () => {
 
   const handleFinished = () => {
     setShowFinished(!showFinished)
-    
+
   }
 
 
@@ -109,8 +107,8 @@ const Todo = () => {
           <input onChange={handleFinished} type="checkbox" className='' name="" id="" />
           <span className='font-medium text-base' >Show All Tasks</span>
         </div>
-        <div className='notes-all-container flex flex-col gap-2 h-[40vh] overflow-auto'>
-          {todos.map((todo, index) => {
+        <div className='notes-all-container flex flex-col gap-2 h-[40vh] overflow-auto m-4'>
+          {todos.length == 0 ? "no todos availabe" : todos.map((todo, index) => {
             return showFinished ? <div key={index} className='todo rounded-xl flex border border-black justify-between items-center p-2'>
               <div className='flex gap-6 items-center justify-center'>
                 <input checked={todo.isCompleted} onChange={() => handleComplete(index)} type="checkbox" className='cursor-pointer' name="" id="" />
